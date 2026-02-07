@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>My Portfolio</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background: #0a0a23; /* undvik vita kanter */
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(-15deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1) rotate(5deg);
+            }
+            70% {
+                transform: scale(0.9) rotate(-3deg);
+            }
+            100% {
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+        }
+
+        /* Header */
+        header {
+            background: rgba(10, 10, 35, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 255, 255, 0.1);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            gap: 1rem;
+        }
+
+        nav h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, #00f5ff, #ff00ff, #00f5ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 3s ease infinite;
+            white-space: nowrap;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00f5ff, #ff00ff);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Sections layout */
+        section {
+            padding: 5rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Hero full width */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0a0a23, #1a1a3e, #0f0f2e);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: white;
+            margin-top: 0;
+            position: relative;
+            overflow: hidden;
+            padding-top: 6.5rem; /* space for fixed header */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 245, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s infinite linear;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-img {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid transparent;
+            background: linear-gradient(45deg, #00f5ff, #ff00ff, #00ff88) border-box;
+            box-shadow: 0 0 40px rgba(0, 245, 255, 0.5), 0 0 80px rgba(255, 0, 255, 0.3);
+            animation: bounceIn 1s ease-out, float 3s ease-in-out infinite 1s;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #00f5ff, #ff00ff, #00ff88);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInLeft 0.8s ease-out 0.3s both, gradient 3s ease infinite;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: slideInRight 0.8s ease-out 0.6s both;
+            text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(45deg, #00f5ff, #ff00ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            box-shadow: 0 5px 20px rgba(0, 245, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: slideInLeft 0.8s ease-out 0.9s both;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.6);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        h2.section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #00f5ff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        /* About */
+        #about {
+            background: transparent;
+            color: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+
+        .about-text {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .about-right {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 1.4rem;
+            height: fit-content;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        }
+
+
+        .skill-tag {
+            background: linear-gradient(135deg, #00f5ff, #0080ff);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 245, 255, 0.3);
+            transition: all 0.3s;
+            cursor: default;
+            display: inline-block;
+        }
+
+        .skills-title {
+            margin-top: 2.2rem;
+            margin-bottom: 1rem;
+            color: #00f5ff;
+            text-align: center;
+            font-size: 1.3rem;
+            letter-spacing: 0.6px;
+        }
+
+
+        .skills-groups {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .skills-group h4 {
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            color: #00f5ff;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .skills-groups {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        .skill-tag:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 245, 255, 0.5);
+        }
+
+        .skills-structured {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.6rem;
+            margin-top: 1.6rem;
+        }
+
+        .skills-block {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            padding: 1.4rem 1.4rem 1.2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+        }
+
+        .skills-block:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 245, 255, 0.25);
+            box-shadow: 0 18px 60px rgba(0, 245, 255, 0.12);
+        }
+
+        .skills-block h4 {
+            margin-bottom: 0.9rem;
+            font-size: 1.05rem;
+            letter-spacing: 0.6px;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .skills-block h4::after {
+            content: '';
+            display: block;
+            width: 52px;
+            height: 3px;
+            margin-top: 0.55rem;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #00f5ff, #ff00ff);
+            opacity: 0.9;
+        }
+
+        .skills-block h4 {
+            min-height: 2.2rem;
+        }
+
+
+        .skills-accent h4::after {
+            background: linear-gradient(90deg, #00ff88, #00f5ff);
+        }
+
+        /* Gör alla skill-kort lika höga */
+        .skills-structured {
+            align-items: stretch;
+        }
+
+        .skills-block {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Ser till att tagsen lägger sig snyggt längst ner om rubriken är kortare */
+        .skills-block .skills {
+            margin-top: 1rem;
+        }
+
+
+        /* Portfolio full width */
+        #portfolio {
+            background: linear-gradient(135deg, #050510, #0a0a23, #1a1a3e);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+        #portfolio::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 245, 255, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 50%, rgba(255, 0, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, rgba(10, 10, 35, 0.8), rgba(26, 26, 62, 0.8));
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) rotateZ(2deg);
+            box-shadow: 0 15px 40px rgba(0, 245, 255, 0.4);
+            border-color: rgba(0, 245, 255, 0.6);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #00f5ff, #ff00ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            transition: all 0.4s;
+        }
+
+        .project-card:hover .project-img {
+            transform: scale(1.1);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .project-content h3 {
+            background: linear-gradient(45deg, #00f5ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Category box hover (global) */
+        .category-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.25);
+        }
+
+        /* Contact full width */
+        .contact {
+            background: linear-gradient(135deg, #0a0a23, #1a1a3e);
+            color: white;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1.1rem;
+            padding: 1rem;
+            background: rgba(0, 245, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #00f5ff;
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            background: rgba(0, 245, 255, 0.2);
+            transform: translateX(10px);
+        }
+
+        .contact-item svg {
+            width: 28px;
+            height: 28px;
+            fill: #00f5ff;
+        }
+
+        footer {
+            background: #0a0a23;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(0, 245, 255, 0.2);
+        }
+
+        .contact-socials {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.9rem 1.6rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .social-link svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        .social-link:hover {
+            transform: translateY(-4px);
+        }
+
+        .social-link.linkedin:hover {
+            background: linear-gradient(45deg, #0077b5, #00a0dc);
+            box-shadow: 0 10px 30px rgba(0, 119, 181, 0.5);
+        }
+
+        .social-link.github:hover {
+            background: linear-gradient(45deg, #333, #6e5494);
+            box-shadow: 0 10px 30px rgba(110, 84, 148, 0.5);
+        }
+
+
+        /* --- Modal / Popup (GLOBAL) --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            z-index: 9999;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            width: min(920px, 100%);
+            background: linear-gradient(135deg, rgba(10, 10, 35, 0.92), rgba(26, 26, 62, 0.92));
+            border: 1px solid rgba(0, 245, 255, 0.25);
+            border-radius: 18px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.55);
+            overflow: hidden;
+            animation: bounceIn 0.45s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.2rem 1.4rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 1.4rem;
+            background: linear-gradient(45deg, #00f5ff, #ff00ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-close {
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+            border-radius: 12px;
+            padding: 0.55rem 0.8rem;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .modal-close:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 1.2rem;
+            padding: 1.4rem;
+        }
+
+        .modal-icon {
+            height: 260px;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 245, 255, 0.18);
+            background: radial-gradient(circle at 30% 20%, rgba(0, 245, 255, 0.22), transparent 55%),
+            radial-gradient(circle at 70% 80%, rgba(255, 0, 255, 0.18), transparent 55%),
+            rgba(0, 0, 0, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+
+        .modal-desc {
+            color: rgba(255, 255, 255, 0.88);
+            line-height: 1.6;
+            margin: 0.2rem 0 0.9rem;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin: 0.6rem 0 1rem;
+        }
+
+        .modal-tech {
+            color: rgba(255, 255, 255, 0.78);
+            margin-top: 0.2rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 1.2rem;
+        }
+
+        .modal-actions .btn {
+            margin-top: 0;
+            padding: 0.7rem 1.2rem;
+            opacity: 1;
+            animation: none;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 1rem;
+            }
+
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.95rem;
+            }
+
+            nav h1 {
+                font-size: 1.2rem;
+            }
+
+            .profile-img {
+                width: 180px;
+                height: 180px;
+            }
+
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-icon {
+                height: 180px;
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <nav>
+        <h1>MY PORTFOLIO</h1>
+
+        <div id="navAdminArea" style="display:flex; align-items:center; gap:.8rem;">
+      <span id="navAdminBadge" style="
+        display:none;
+        padding: .35rem .8rem;
+        border-radius: 999px;
+        font-weight: 800;
+        background: linear-gradient(45deg, #00f5ff, #ff00ff);
+        box-shadow: 0 8px 24px rgba(0,245,255,0.18);
+        font-size: .85rem;
+      ">ADMIN MODE</span>
+
+            <a id="navAdminLink" href="/login" style="color:white; text-decoration:none;">Admin Login</a>
+        </div>
+
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#portfolio">Work</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section id="home" class="hero">
+    <div class="hero-content">
+        <!-- IMPORTANT: place image in src/main/resources/static/natti.jpg -->
+        <img src="/natti.jpg" alt="Daniela Silva profile picture" class="profile-img">
+        <div>
+            <h2>Hi, I'm Daniela Silva</h2>
+            <p>Creative Java Developer | Cloud Enthusiast | Designer</p>
+            <a href="#portfolio" class="btn">View My Work</a>
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <div class="container">
+        <h2 class="section-title">About Me</h2>
+
+        <div class="about-content">
+            <!-- LEFT COLUMN -->
+            <div class="about-text">
+                <p style="font-size: 1.15rem; line-height: 1.8; color: rgba(255,255,255,0.92); margin-bottom: 2rem;">
+                    I am a motivated Java Developer with a strong interest in backend development and cloud
+                    technologies.
+                    I enjoy building structured and reliable applications with a clear focus on clean code, scalability,
+                    and maintainable solutions.
+                </p>
+
+                <p style="font-size: 1.05rem; line-height: 1.7; color: rgba(255,255,255,0.88); margin-bottom: 1.5rem;">
+                    During my studies as a Java Developer with Cloud specialization, I have worked on both school
+                    projects
+                    and personal applications where I design, develop, test, and improve full stack solutions using
+                    modern
+                    tools and frameworks. I am comfortable working with REST APIs, databases, authentication, and
+                    deployment
+                    in cloud environments.
+                </p>
+
+                <p style="font-size: 1.05rem; line-height: 1.7; color: rgba(255,255,255,0.88); margin-bottom: 1.5rem;">
+                    I work in a structured and organized way, enjoy solving problems, and value clear communication and
+                    collaboration in a team. I am a fast learner who takes responsibility for my work and continuously
+                    improves by learning new technologies and development practices.
+                </p>
+                <p>
+                    I am now looking for opportunities where I can grow as a developer, contribute to real projects,
+                    and be part of a team that values learning, collaboration, and quality.
+                </p>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="about-right" style="color: rgba(255,255,255,0.9);">
+                <h3 style="margin-bottom: 1rem; color: #00f5ff;">Personal Info</h3>
+                <p style="margin-bottom: 0.5rem;"><strong>Location:</strong> Växjö, Sweden</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Education:</strong> Jensen Yrkeshögskola</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Program:</strong> Java Developer with Cloud Specialization</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Interests:</strong> Cloud Computing, Backend Development, UI
+                    Design</p>
+                <p style="margin-top: 1.5rem; font-style: italic; color: #00f5ff;">
+                    "Building scalable solutions in the cloud"
+                </p>
+            </div>
+        </div>
+
+        <!-- FULL WIDTH SKILLS (UNDER THE 2 COLUMNS) -->
+        <h3 class="skills-title">Skills & Technologies</h3>
+
+        <div class="skills-structured">
+            <div class="skills-block">
+                <h4>Backend</h4>
+                <div class="skills">
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">Spring Boot</span>
+                    <span class="skill-tag">REST APIs</span>
+                    <span class="skill-tag">Spring Security</span>
+                    <span class="skill-tag">JPA and Hibernate</span>
+                    <span class="skill-tag">Validation</span>
+                    <span class="skill-tag">CRUD Applications</span>
+                    <span class="skill-tag">API Design</span>
+                    <span class="skill-tag">Authentication</span>
+                    <span class="skill-tag">JavaFX</span>
+                    <span class="skill-tag">Desktop Application Development</span>
+                    <span class="skill-tag">CI/CD</span>
+                    <span class="skill-tag">Event-Driven Programming</span>
+                </div>
+            </div>
+
+            <div class="skills-block">
+                <h4>Frontend</h4>
+                <div class="skills">
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">HTML</span>
+                    <span class="skill-tag">CSS</span>
+                    <span class="skill-tag">Responsive Design</span>
+                    <span class="skill-tag">UI Design</span>
+                </div>
+            </div>
+
+            <div class="skills-block">
+                <h4>Testing</h4>
+                <div class="skills">
+                    <span class="skill-tag">JUnit</span>
+                    <span class="skill-tag">Unit Testing</span>
+                    <span class="skill-tag">Integration Testing</span>
+                    <span class="skill-tag">Spring Boot Testing</span>
+                </div>
+            </div>
+
+            <div class="skills-block">
+                <h4>Databases</h4>
+                <div class="skills">
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">H2 Database</span>
+                    <span class="skill-tag">Database Design Basics</span>
+                </div>
+            </div>
+
+            <div class="skills-block">
+                <h4>Cloud and Deployment</h4>
+                <div class="skills">
+                    <span class="skill-tag">Koyeb</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Containerization</span>
+                    <span class="skill-tag">Cloud Deployment</span>
+                    <span class="skill-tag">Environment Variables</span>
+                    <span class="skill-tag">Environment Configuration</span>
+                    <span class="skill-tag">Cloud Basics</span>
+                </div>
+            </div>
+
+            <div class="skills-block">
+                <h4>Tools</h4>
+                <div class="skills">
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">GitHub</span>
+                    <span class="skill-tag">Maven</span>
+                    <span class="skill-tag">IntelliJ IDEA</span>
+                </div>
+            </div>
+
+            <div class="skills-block">
+                <h4>Professional & Team Skills</h4>
+                <div class="skills">
+                    <span class="skill-tag">Team Collaboration</span>
+                    <span class="skill-tag">Clear Communication</span>
+                    <span class="skill-tag">Structured & organized Work</span>
+                    <span class="skill-tag">Fast Learner</span>
+                    <span class="skill-tag">Problem Solving</span>
+                    <span class="skill-tag">Responsibility</span>
+                    <span class="skill-tag">Time Management</span>
+                    <span class="skill-tag">Attention to Detail</span>
+                </div>
+            </div>
+
+            <div class="skills-block skills-accent">
+                <h4>Development Practices</h4>
+                <div class="skills">
+                    <span class="skill-tag">Clean Code</span>
+                    <span class="skill-tag">Code Structure</span>
+                    <span class="skill-tag">SOLID Basics</span>
+                    <span class="skill-tag">Debugging</span>
+                    <span class="skill-tag">Error Handling</span>
+                    <span class="skill-tag">Logging</span>
+                    <span class="skill-tag">Refactoring</span>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</section>
+
+
+<section id="portfolio">
+    <div class="container">
+        <h2 class="section-title">My Work</h2>
+
+        <div style="text-align: center; padding: 2rem 0 1rem; position: relative; z-index: 1;">
+            <div style="display: inline-block; position: relative;">
+                <div style="font-size: 5rem; margin-bottom: 1rem; animation: float 3s ease-in-out infinite;">💻</div>
+
+                <h3 style="font-size: 2rem; background: linear-gradient(45deg, #00f5ff, #ff00ff);
+          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+          margin-bottom: 1rem; animation: gradient 3s ease infinite; background-size: 200% 200%;">
+                    Projects In Progress
+                </h3>
+
+                <p style="color: rgba(255, 255, 255, 0.8); font-size: 1.2rem; max-width: 700px; margin: 0 auto 2rem;">
+                    Click a category to explore my projects. I continuously update this portfolio as I build new
+                    solutions.
+                </p>
+
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                    <button class="category-box" data-category="Cloud"
+                            style="background: rgba(0, 245, 255, 0.1); border: 2px solid #00f5ff; border-radius: 15px;
+                  padding: 1.5rem 2rem; min-width: 170px; transition: all 0.3s; cursor: pointer; color: white;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">☁️</div>
+                        <div style="color: #00f5ff; font-weight: bold;">Cloud</div>
+                        <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem;">AWS Projects</div>
+                    </button>
+
+                    <button class="category-box" data-category="Java"
+                            style="background: rgba(255, 0, 255, 0.1); border: 2px solid #ff00ff; border-radius: 15px;
+                  padding: 1.5rem 2rem; min-width: 170px; transition: all 0.3s; cursor: pointer; color: white;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">☕</div>
+                        <div style="color: #ff00ff; font-weight: bold;">Java</div>
+                        <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem;">Backend Apps</div>
+                    </button>
+
+                    <button class="category-box" data-category="Web"
+                            style="background: rgba(0, 255, 136, 0.1); border: 2px solid #00ff88; border-radius: 15px;
+                  padding: 1.5rem 2rem; min-width: 170px; transition: all 0.3s; cursor: pointer; color: white;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎨</div>
+                        <div style="color: #00ff88; font-weight: bold;">Web Design</div>
+                        <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem;">UI/UX</div>
+                    </button>
+
+                    <button class="category-box" data-category=""
+                            style="background: rgba(255, 255, 255, 0.06); border: 2px solid rgba(255,255,255,0.25); border-radius: 15px;
+                  padding: 1.5rem 2rem; min-width: 170px; transition: all 0.3s; cursor: pointer; color: white;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">✨</div>
+                        <div style="color: rgba(255,255,255,0.9); font-weight: bold;">All</div>
+                        <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem;">Everything</div>
+                    </button>
+                </div>
+
+                <div id="selectedCategory" style="margin-top: 2rem; color: rgba(255,255,255,0.85); font-size: 1.05rem;">
+                    Showing: <strong>All projects</strong>
+                </div>
+
+                <div style="margin-top: 2rem; display: flex; gap: 0.5rem; justify-content: center; align-items: center;">
+                    <div style="width: 12px; height: 12px; border-radius: 50%; background: #00f5ff; animation: pulse 1.5s ease-in-out infinite;"></div>
+                    <div style="width: 12px; height: 12px; border-radius: 50%; background: #ff00ff; animation: pulse 1.5s ease-in-out infinite 0.2s;"></div>
+                    <div style="width: 12px; height: 12px; border-radius: 50%; background: #00ff88; animation: pulse 1.5s ease-in-out infinite 0.4s;"></div>
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <a class="btn" href="/admin" style="opacity:1; animation:none;">Manage Projects</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="portfolio-grid" id="projectsGrid"></div>
+
+        <div id="projectsEmpty"
+             style="display:none; text-align:center; padding: 3rem 1rem; position:relative; z-index:1;">
+            <div style="font-size:3rem; margin-bottom:1rem; animation: float 3s ease-in-out infinite;">✨</div>
+            <h3 style="font-size:1.6rem; background: linear-gradient(45deg, #00f5ff, #ff00ff);
+          -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:.6rem;">
+                No projects here yet
+            </h3>
+            <p style="color: rgba(255,255,255,0.75); max-width:520px; margin:0 auto;">
+                I’m currently working on exciting projects in this category. Check back soon!
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact">
+    <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-info">
+            <div class="contact-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                <a href="mailto:danielasilva92@gmail.com?subject=Portfolio%20Contact"
+                   style="color:white; text-decoration:none; display:block; width:100%;">
+                    danielasilva92@gmail.com
+                </a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=danielasilva92@gmail.com&su=Portfolio%20Contact"
+                   target="_blank" rel="noopener"
+                   style="color: rgba(255,255,255,0.85); text-decoration: underline; margin-left: 3.6rem; display:inline-block;">
+                    Send via Gmail (web)
+                </a>
+
+
+            </div>
+
+            <div class="contact-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+                <span>+46 70 024 63 53</span>
+            </div>
+
+            <div class="contact-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                <span>Växjö, Sweden</span>
+            </div>
+            <div class="contact-socials">
+                <a href="https://www.linkedin.com/in/daniela-silva-429421334"
+                   target="_blank" rel="noopener"
+                   class="social-link linkedin"
+                   aria-label="LinkedIn">
+                    <!-- LinkedIn SVG -->
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4zM8 8h3.8v2.2h.1c.53-1 1.82-2.2 3.75-2.2 4 0 4.7 2.6 4.7 6V24h-4v-7.5c0-1.8 0-4-2.5-4s-2.9 1.9-2.9 3.9V24h-4z"/>
+                    </svg>
+                    <span>LinkedIn</span>
+                </a>
+
+                <a href="https://github.com/danielasilva92/"
+                   target="_blank" rel="noopener"
+                   class="social-link github"
+                   aria-label="GitHub">
+                    <!-- GitHub SVG -->
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.6-1.3-1.6-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.9 1.4 3.6 1.1.1-.8.4-1.4.7-1.7-2.6-.3-5.4-1.3-5.4-5.8 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.2 0 4.5-2.8 5.5-5.4 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2025 Daniela Silva. All rights reserved.</p>
+</footer>
+
+<!-- Modal / Popup (MUST be inside body, before </body>) -->
+<div class="modal-overlay" id="projectModalOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modalTitle">Project</h3>
+            <button class="modal-close" id="modalCloseBtn" type="button">✕</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="modal-icon" id="modalIcon">💻</div>
+
+            <div>
+                <div class="modal-meta" id="modalMeta"></div>
+                <p class="modal-desc" id="modalDesc"></p>
+                <div class="modal-tech" id="modalTech" style="display:none;"></div>
+                <div class="modal-actions" id="modalActions"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Smooth scroll (ONE version only)
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', (e) => {
+            const href = a.getAttribute('href');
+            if (!href || href === '#' || !href.startsWith('#')) return;
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+        });
+    });
+
+    let allProjects = [];
+    let activeCategory = "";
+
+    function iconForCategory(cat) {
+        const c = (cat || '').toLowerCase();
+        if (c.includes('cloud') || c.includes('aws')) return '☁️';
+        if (c.includes('java')) return '☕';
+        if (c.includes('web') || c.includes('ui')) return '🎨';
+        return '💻';
+    }
+
+    function setSelectedLabel() {
+        const el = document.getElementById('selectedCategory');
+        const label = activeCategory ? activeCategory : 'All projects';
+        el.innerHTML = `Showing: <strong>${label}</strong>`;
+    }
+
+    // Modal
+    const overlay = document.getElementById('projectModalOverlay');
+    const closeBtn = document.getElementById('modalCloseBtn');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalTech = document.getElementById('modalTech');
+    const modalActions = document.getElementById('modalActions');
+
+    function openModal(project) {
+        modalTitle.textContent = project.title || 'Project';
+        modalIcon.textContent = iconForCategory(project.category);
+        modalDesc.textContent = project.description || '';
+
+        modalMeta.innerHTML = '';
+        if (project.category) {
+            const tag = document.createElement('span');
+            tag.className = 'skill-tag';
+            tag.textContent = project.category;
+            modalMeta.appendChild(tag);
+        }
+        if (project.featured) {
+            const featured = document.createElement('span');
+            featured.className = 'skill-tag';
+            featured.textContent = 'Featured';
+            featured.style.background = 'linear-gradient(135deg, #ff00ff, #00f5ff)';
+            modalMeta.appendChild(featured);
+        }
+
+        if (project.techStack && project.techStack.trim().length > 0) {
+            modalTech.style.display = 'block';
+            modalTech.textContent = `Tech stack: ${project.techStack}`;
+        } else {
+            modalTech.style.display = 'none';
+            modalTech.textContent = '';
+        }
+
+        modalActions.innerHTML = '';
+        if (project.repoUrl) {
+            const a = document.createElement('a');
+            a.href = project.repoUrl;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.className = 'btn';
+            a.textContent = 'View Repository';
+            modalActions.appendChild(a);
+        }
+        if (project.demoUrl) {
+            const a = document.createElement('a');
+            a.href = project.demoUrl;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.className = 'btn';
+            a.textContent = 'Live Demo';
+            modalActions.appendChild(a);
+        }
+        if (!project.repoUrl && !project.demoUrl) {
+            const p = document.createElement('div');
+            p.style.color = 'rgba(255,255,255,0.75)';
+            p.textContent = 'No links added yet.';
+            modalActions.appendChild(p);
+        }
+
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal() {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    });
+
+    // Render projects
+    function renderProjects() {
+        const grid = document.getElementById('projectsGrid');
+        const empty = document.getElementById('projectsEmpty');
+
+        grid.innerHTML = '';
+
+        const filtered = activeCategory
+            ? allProjects.filter(p => (p.category || '').toLowerCase().includes(activeCategory.toLowerCase()))
+            : allProjects;
+
+        if (!Array.isArray(filtered) || filtered.length === 0) {
+            empty.style.display = 'block';
+            return;
+        }
+        empty.style.display = 'none';
+
+        for (const p of filtered) {
+            const card = document.createElement('div');
+            card.className = 'project-card';
+
+            const img = document.createElement('div');
+            img.className = 'project-img';
+            img.textContent = iconForCategory(p.category);
+
+            const content = document.createElement('div');
+            content.className = 'project-content';
+
+            const title = document.createElement('h3');
+            title.textContent = p.title || 'Untitled project';
+
+            const desc = document.createElement('p');
+            desc.style.color = 'rgba(255,255,255,0.85)';
+            desc.style.margin = '0.6rem 0 0.9rem';
+            desc.textContent = p.description || '';
+
+            const metaRow = document.createElement('div');
+            metaRow.style.display = 'flex';
+            metaRow.style.gap = '0.6rem';
+            metaRow.style.flexWrap = 'wrap';
+
+            if (p.category) {
+                const tag = document.createElement('span');
+                tag.className = 'skill-tag';
+                tag.textContent = p.category;
+                metaRow.appendChild(tag);
+            }
+            if (p.featured) {
+                const featured = document.createElement('span');
+                featured.className = 'skill-tag';
+                featured.textContent = 'Featured';
+                featured.style.background = 'linear-gradient(135deg, #ff00ff, #00f5ff)';
+                metaRow.appendChild(featured);
+            }
+
+            const hint = document.createElement('div');
+            hint.style.marginTop = '1rem';
+            hint.style.color = 'rgba(255,255,255,0.7)';
+            hint.style.fontSize = '0.95rem';
+            hint.textContent = 'Click for details';
+
+            content.appendChild(title);
+            content.appendChild(desc);
+            content.appendChild(metaRow);
+            content.appendChild(hint);
+
+            card.appendChild(img);
+            card.appendChild(content);
+            card.addEventListener('click', () => openModal(p));
+
+            grid.appendChild(card);
+        }
+    }
+
+    async function loadProjects() {
+        const empty = document.getElementById('projectsEmpty');
+
+        try {
+            const res = await fetch('/api/projects');
+            if (!res.ok) throw new Error('API error: ' + res.status);
+
+            const data = await res.json();
+            allProjects = Array.isArray(data) ? data : [];
+
+            setSelectedLabel();
+            renderProjects();
+        } catch (err) {
+            console.error(err);
+            allProjects = [];
+            setSelectedLabel();
+            renderProjects();
+
+            // show nice error instead of breaking the page
+            empty.style.display = 'block';
+            empty.innerHTML = `
+        <div style="font-size:3rem; margin-bottom:1rem; animation: float 3s ease-in-out infinite;">⚠️</div>
+        <h3 style="font-size:1.6rem; background: linear-gradient(45deg, #00f5ff, #ff00ff);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:.6rem;">
+          Projects are temporarily unavailable
+        </h3>
+        <p style="color: rgba(255,255,255,0.75); max-width:520px; margin:0 auto;">
+          The server returned an error. Please restart the app and try again.
+        </p>
+      `;
+        }
+    }
+
+    document.querySelectorAll('.category-box').forEach(btn => {
+        btn.addEventListener('click', () => {
+            activeCategory = btn.dataset.category || "";
+            setSelectedLabel();
+            renderProjects();
+            document.getElementById('projectsGrid').scrollIntoView({behavior: 'smooth', block: 'start'});
+        });
+    });
+
+    async function updateAdminNav() {
+        const badge = document.getElementById('navAdminBadge');
+        const link = document.getElementById('navAdminLink');
+
+        try {
+            const res = await fetch('/api/me');
+            if (!res.ok) throw new Error('not logged in');
+            const me = await res.json();
+
+            badge.style.display = 'inline-block';
+            link.textContent = 'Manage Projects';
+            link.href = '/admin';
+            link.title = `Signed in as ${me.username}`;
+        } catch {
+            badge.style.display = 'none';
+            link.textContent = 'Admin Login';
+            link.href = '/login';
+            link.title = '';
+        }
+    }
+
+    updateAdminNav();
+    loadProjects();
+</script>
+
+</body>
+</html>

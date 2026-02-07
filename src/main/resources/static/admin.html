@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Portfolio Admin</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background: #0a0a23;
+            color: #fff;
+        }
+
+        a {
+            color: #00f5ff;
+        }
+
+        .wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(0, 245, 255, 0.08);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+
+        textarea {
+            min-height: 100px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn {
+            cursor: pointer;
+            border: none;
+            border-radius: 999px;
+            padding: 0.7rem 1.2rem;
+            color: #fff;
+            background: linear-gradient(45deg, #00f5ff, #ff00ff);
+            font-weight: bold;
+        }
+
+        .btn2 {
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            padding: 0.7rem 1.2rem;
+            background: transparent;
+            color: #fff;
+        }
+
+        .actions {
+            display: flex;
+            gap: .7rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .small {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            padding: 0.6rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            vertical-align: top;
+        }
+
+        th {
+            text-align: left;
+            opacity: 0.9;
+        }
+
+        .fade-in {
+            animation: adminFade 0.55s ease-out;
+        }
+
+        @keyframes adminFade {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div id="adminTopBar" style="
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1rem 1.2rem; margin-bottom: 1.2rem;
+  background: rgba(10,10,35,0.75);
+  border: 1px solid rgba(0,245,255,0.18);
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
+">
+    <div style="display:flex; align-items:center; gap: .8rem; flex-wrap: wrap;">
+    <span id="adminModeBadge" style="
+      display:none;
+      padding: .45rem .9rem;
+      border-radius: 999px;
+      font-weight: 800;
+      background: linear-gradient(45deg, #00f5ff, #ff00ff);
+      box-shadow: 0 8px 24px rgba(0,245,255,0.25);
+    ">ADMIN MODE</span>
+
+        <div style="color: rgba(255,255,255,0.85);">
+            Signed in as <strong id="adminUser">...</strong>
+        </div>
+    </div>
+
+    <form method="post" action="/logout" style="margin:0;">
+        <button type="submit" class="btn2">Logout</button>
+    </form>
+</div>
+
+<div id="toast" style="
+  position: fixed; right: 18px; bottom: 18px; z-index: 9999;
+  display:none;
+  background: rgba(10,10,35,0.88);
+  border: 1px solid rgba(0,245,255,0.22);
+  border-radius: 14px;
+  padding: .9rem 1.1rem;
+  color: rgba(255,255,255,0.9);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+  backdrop-filter: blur(12px);
+">
+    ✅ Welcome back!
+</div>
+
+<div class="wrap">
+    <h1>Portfolio Admin</h1>
+    <p class="small"><a href="/">← Tillbaka till portfolion</a></p>
+
+    <div class="card">
+        <h2 id="formTitle">Add project</h2>
+
+        <label>Title</label>
+        <input id="title" placeholder="Ex: Java Backend API"/>
+
+        <label style="margin-top: .8rem;">Description</label>
+        <textarea id="description" placeholder="Kort beskrivning..."></textarea>
+
+        <label style="margin-top: .8rem;">Tech stack (valfritt)</label>
+        <input id="techStack" placeholder="Ex: Java, Spring Boot, AWS, MySQL"/>
+
+        <label style="margin-top: .8rem; display:flex; gap:.6rem; align-items:center;">
+            <input type="checkbox" id="featured"/>
+            Featured (visa först)
+        </label>
+
+
+        <div class="row" style="margin-top: .8rem;">
+            <div>
+                <label>Category</label>
+                <input id="category" placeholder="Ex: Java / Cloud / Web"/>
+            </div>
+            <div>
+                <label>Image URL (valfritt)</label>
+                <input id="imageUrl" placeholder="https://..."/>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: .8rem;">
+            <div>
+                <label>Repo URL (valfritt)</label>
+                <input id="repoUrl" placeholder="https://github.com/..."/>
+            </div>
+            <div>
+                <label>Demo URL (valfritt)</label>
+                <input id="demoUrl" placeholder="https://..."/>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn" id="saveBtn">Save</button>
+            <button class="btn2" id="resetBtn">Reset</button>
+        </div>
+
+        <p class="small" id="status"></p>
+    </div>
+
+    <div class="card">
+        <h2>Projects</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th style="width: 240px;">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="list"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let editingId = null;
+
+    const els = {
+        title: document.getElementById('title'),
+        description: document.getElementById('description'),
+        category: document.getElementById('category'),
+        repoUrl: document.getElementById('repoUrl'),
+        demoUrl: document.getElementById('demoUrl'),
+        imageUrl: document.getElementById('imageUrl'),
+        list: document.getElementById('list'),
+        status: document.getElementById('status'),
+        formTitle: document.getElementById('formTitle'),
+        techStack: document.getElementById('techStack'),
+        featured: document.getElementById('featured'),
+
+    };
+
+    function setStatus(msg) {
+        els.status.textContent = msg || '';
+    }
+
+    function resetForm() {
+        editingId = null;
+        els.formTitle.textContent = 'Add project';
+        els.title.value = '';
+        els.description.value = '';
+        els.category.value = '';
+        els.repoUrl.value = '';
+        els.demoUrl.value = '';
+        els.imageUrl.value = '';
+        els.techStack.value = '';
+        els.featured.checked = false;
+
+        setStatus('');
+    }
+
+    function getPayload() {
+        return {
+            title: els.title.value.trim(),
+            description: els.description.value.trim(),
+            category: els.category.value.trim(),
+            techStack: els.techStack.value.trim(),
+            featured: els.featured.checked,
+            repoUrl: els.repoUrl.value.trim(),
+            demoUrl: els.demoUrl.value.trim(),
+            imageUrl: els.imageUrl.value.trim()
+        };
+
+
+    }
+
+    async function loadList() {
+        els.list.innerHTML = '';
+        const res = await fetch('/api/projects');
+        const projects = await res.json();
+
+        for (const p of projects) {
+            const tr = document.createElement('tr');
+
+            const tdTitle = document.createElement('td');
+            tdTitle.textContent = p.title;
+
+            const tdCat = document.createElement('td');
+            tdCat.textContent = p.category || '';
+
+            const tdAct = document.createElement('td');
+
+            const editBtn = document.createElement('button');
+            editBtn.className = 'btn2';
+            editBtn.textContent = 'Edit';
+            editBtn.onclick = () => {
+                editingId = p.id;
+                els.formTitle.textContent = 'Edit project #' + p.id;
+                els.title.value = p.title || '';
+                els.description.value = p.description || '';
+                els.category.value = p.category || '';
+                els.repoUrl.value = p.repoUrl || '';
+                els.demoUrl.value = p.demoUrl || '';
+                els.imageUrl.value = p.imageUrl || '';
+                els.techStack.value = p.techStack || '';
+                els.featured.checked = !!p.featured;
+
+                setStatus('');
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            };
+
+            const delBtn = document.createElement('button');
+            delBtn.className = 'btn2';
+            delBtn.textContent = 'Delete';
+            delBtn.onclick = async () => {
+                if (!confirm('Ta bort "' + p.title + '"?')) return;
+                const r = await fetch('/api/projects/' + p.id, {method: 'DELETE'});
+                if (r.ok) {
+                    setStatus('Deleted.');
+                    resetForm();
+                    await loadList();
+                } else {
+                    setStatus('Delete failed.');
+                }
+            };
+
+            tdAct.appendChild(editBtn);
+            tdAct.appendChild(document.createTextNode(' '));
+            tdAct.appendChild(delBtn);
+
+            tr.appendChild(tdTitle);
+            tr.appendChild(tdCat);
+            tr.appendChild(tdAct);
+            els.list.appendChild(tr);
+        }
+    }
+
+    document.getElementById('saveBtn').onclick = async () => {
+        const payload = getPayload();
+        if (!payload.title) {
+            setStatus('Title krävs.');
+            return;
+        }
+
+        const url = editingId ? ('/api/projects/' + editingId) : '/api/projects';
+        const method = editingId ? 'PUT' : 'POST';
+
+        const res = await fetch(url, {
+            method,
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+            setStatus(editingId ? 'Updated!' : 'Created!');
+            resetForm();
+            await loadList();
+        } else {
+            setStatus('Save failed (kolla server-loggar).');
+        }
+    };
+
+    document.getElementById('resetBtn').onclick = resetForm;
+
+    loadList();
+</script>
+</body>
+</html>
+<script>
+    async function loadMe() {
+        try {
+            const res = await fetch('/api/me');
+            if (!res.ok) throw new Error('Not logged in');
+            const me = await res.json();
+
+            document.getElementById('adminUser').textContent = me.username || 'admin';
+            document.getElementById('adminModeBadge').style.display = 'inline-block';
+
+            // Fade-in (lite extra polish)
+            document.body.classList.add('fade-in');
+
+            // Toast om du kom från login
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('login') === 'success') {
+                const toast = document.getElementById('toast');
+                toast.style.display = 'block';
+                setTimeout(() => toast.style.display = 'none', 2200);
+
+                // Rensa param från URL (så toast inte kommer igen vid refresh)
+                const cleanUrl = window.location.pathname;
+                window.history.replaceState({}, '', cleanUrl);
+            }
+
+        } catch (e) {
+            // Om något går fel, skicka till login
+            window.location.href = '/login';
+        }
+    }
+
+    loadMe();
+</script>
