@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Portfolio Admin</title>
     <style>
-
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -38,6 +37,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: rgba(0, 0, 0, 0.2);
             color: #fff;
+            box-sizing: border-box;
         }
 
         textarea {
@@ -48,6 +48,16 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
+        }
+
+        @media (max-width: 720px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 1rem;
+            }
         }
 
         .btn {
@@ -111,28 +121,30 @@
                 transform: translateY(0);
             }
         }
-
     </style>
 </head>
+
 <body>
+
+
 <div id="adminTopBar" style="
-  position: sticky; top: 0; z-index: 50;
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  padding: 1rem 1.2rem; margin-bottom: 1.2rem;
-  background: rgba(10,10,35,0.75);
-  border: 1px solid rgba(0,245,255,0.18);
-  border-radius: 14px;
-  backdrop-filter: blur(12px);
-">
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 1rem 1.2rem; margin-bottom: 1.2rem;
+    background: rgba(10,10,35,0.75);
+    border: 1px solid rgba(0,245,255,0.18);
+    border-radius: 14px;
+    backdrop-filter: blur(12px);
+  ">
     <div style="display:flex; align-items:center; gap: .8rem; flex-wrap: wrap;">
-    <span id="adminModeBadge" style="
-      display:none;
-      padding: .45rem .9rem;
-      border-radius: 999px;
-      font-weight: 800;
-      background: linear-gradient(45deg, #00f5ff, #ff00ff);
-      box-shadow: 0 8px 24px rgba(0,245,255,0.25);
-    ">ADMIN MODE</span>
+      <span id="adminModeBadge" style="
+        display:none;
+        padding: .45rem .9rem;
+        border-radius: 999px;
+        font-weight: 800;
+        background: linear-gradient(45deg, #00f5ff, #ff00ff);
+        box-shadow: 0 8px 24px rgba(0,245,255,0.25);
+      ">ADMIN MODE</span>
 
         <div style="color: rgba(255,255,255,0.85);">
             Signed in as <strong id="adminUser">...</strong>
@@ -145,16 +157,16 @@
 </div>
 
 <div id="toast" style="
-  position: fixed; right: 18px; bottom: 18px; z-index: 9999;
-  display:none;
-  background: rgba(10,10,35,0.88);
-  border: 1px solid rgba(0,245,255,0.22);
-  border-radius: 14px;
-  padding: .9rem 1.1rem;
-  color: rgba(255,255,255,0.9);
-  box-shadow: 0 18px 50px rgba(0,0,0,0.45);
-  backdrop-filter: blur(12px);
-">
+    position: fixed; right: 18px; bottom: 18px; z-index: 9999;
+    display:none;
+    background: rgba(10,10,35,0.88);
+    border: 1px solid rgba(0,245,255,0.22);
+    border-radius: 14px;
+    padding: .9rem 1.1rem;
+    color: rgba(255,255,255,0.9);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+    backdrop-filter: blur(12px);
+  ">
     ✅ Welcome back!
 </div>
 
@@ -179,7 +191,6 @@
             Featured (visa först)
         </label>
 
-
         <div class="row" style="margin-top: .8rem;">
             <div>
                 <label>Category</label>
@@ -203,8 +214,8 @@
         </div>
 
         <div class="actions">
-            <button class="btn" id="saveBtn">Save</button>
-            <button class="btn2" id="resetBtn">Reset</button>
+            <button class="btn" id="saveBtn" type="button">Save</button>
+            <button class="btn2" id="resetBtn" type="button">Reset</button>
         </div>
 
         <p class="small" id="status"></p>
@@ -239,8 +250,7 @@
         status: document.getElementById('status'),
         formTitle: document.getElementById('formTitle'),
         techStack: document.getElementById('techStack'),
-        featured: document.getElementById('featured'),
-
+        featured: document.getElementById('featured')
     };
 
     function setStatus(msg) {
@@ -258,7 +268,6 @@
         els.imageUrl.value = '';
         els.techStack.value = '';
         els.featured.checked = false;
-
         setStatus('');
     }
 
@@ -268,25 +277,30 @@
             description: els.description.value.trim(),
             category: els.category.value.trim(),
             techStack: els.techStack.value.trim(),
-            featured: els.featured.checked,
+            featured: !!els.featured.checked,
             repoUrl: els.repoUrl.value.trim(),
             demoUrl: els.demoUrl.value.trim(),
             imageUrl: els.imageUrl.value.trim()
         };
-
-
     }
 
     async function loadList() {
         els.list.innerHTML = '';
-        const res = await fetch('/api/projects');
+
+        const res = await fetch('/api/projects', {credentials: 'same-origin'});
+        if (!res.ok) {
+            const text = await res.text();
+            setStatus(`Load failed. Status: ${res.status}. ${text}`);
+            return;
+        }
+
         const projects = await res.json();
 
         for (const p of projects) {
             const tr = document.createElement('tr');
 
             const tdTitle = document.createElement('td');
-            tdTitle.textContent = p.title;
+            tdTitle.textContent = p.title || '';
 
             const tdCat = document.createElement('td');
             tdCat.textContent = p.category || '';
@@ -295,6 +309,7 @@
 
             const editBtn = document.createElement('button');
             editBtn.className = 'btn2';
+            editBtn.type = 'button';
             editBtn.textContent = 'Edit';
             editBtn.onclick = () => {
                 editingId = p.id;
@@ -307,23 +322,29 @@
                 els.imageUrl.value = p.imageUrl || '';
                 els.techStack.value = p.techStack || '';
                 els.featured.checked = !!p.featured;
-
                 setStatus('');
                 window.scrollTo({top: 0, behavior: 'smooth'});
             };
 
             const delBtn = document.createElement('button');
             delBtn.className = 'btn2';
+            delBtn.type = 'button';
             delBtn.textContent = 'Delete';
             delBtn.onclick = async () => {
-                if (!confirm('Ta bort "' + p.title + '"?')) return;
-                const r = await fetch('/api/projects/' + p.id, {method: 'DELETE'});
+                if (!confirm('Ta bort "' + (p.title || '') + '"?')) return;
+
+                const r = await fetch('/api/projects/' + p.id, {
+                    method: 'DELETE',
+                    credentials: 'same-origin'
+                });
+
                 if (r.ok) {
                     setStatus('Deleted.');
                     resetForm();
                     await loadList();
                 } else {
-                    setStatus('Delete failed.');
+                    const text = await r.text();
+                    setStatus(`Delete failed. Status: ${r.status}. ${text}`);
                 }
             };
 
@@ -334,12 +355,14 @@
             tr.appendChild(tdTitle);
             tr.appendChild(tdCat);
             tr.appendChild(tdAct);
+
             els.list.appendChild(tr);
         }
     }
 
     document.getElementById('saveBtn').onclick = async () => {
         const payload = getPayload();
+
         if (!payload.title) {
             setStatus('Title krävs.');
             return;
@@ -350,6 +373,7 @@
 
         const res = await fetch(url, {
             method,
+            credentials: 'same-origin',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)
         });
@@ -359,46 +383,41 @@
             resetForm();
             await loadList();
         } else {
-            setStatus('Save failed (kolla server-loggar).');
+            const text = await res.text();
+            setStatus(`Save failed. Status: ${res.status}. ${text}`);
         }
     };
 
     document.getElementById('resetBtn').onclick = resetForm;
 
-    loadList();
-</script>
-</body>
-</html>
-<script>
     async function loadMe() {
         try {
-            const res = await fetch('/api/me');
+            const res = await fetch('/api/me', {credentials: 'same-origin'});
             if (!res.ok) throw new Error('Not logged in');
+
             const me = await res.json();
 
             document.getElementById('adminUser').textContent = me.username || 'admin';
             document.getElementById('adminModeBadge').style.display = 'inline-block';
 
-            // Fade-in (lite extra polish)
             document.body.classList.add('fade-in');
 
-            // Toast om du kom från login
             const params = new URLSearchParams(window.location.search);
             if (params.get('login') === 'success') {
                 const toast = document.getElementById('toast');
                 toast.style.display = 'block';
                 setTimeout(() => toast.style.display = 'none', 2200);
 
-                // Rensa param från URL (så toast inte kommer igen vid refresh)
                 const cleanUrl = window.location.pathname;
                 window.history.replaceState({}, '', cleanUrl);
             }
-
         } catch (e) {
-            // Om något går fel, skicka till login
             window.location.href = '/login';
         }
     }
 
     loadMe();
+    loadList();
 </script>
+</body>
+</html>

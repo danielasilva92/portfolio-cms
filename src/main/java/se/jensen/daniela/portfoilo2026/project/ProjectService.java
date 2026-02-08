@@ -44,6 +44,8 @@ public class ProjectService {
         existing.setRepoUrl(patch.getRepoUrl());
         existing.setDemoUrl(patch.getDemoUrl());
         existing.setImageUrl(patch.getImageUrl());
+        existing.setTechStack(patch.getTechStack());
+        existing.setFeatured(patch.isFeatured());
         return existing;
     }
 

@@ -102,6 +102,62 @@
             }
         }
 
+        .nav-toggle {
+            display: none;
+            background: transparent;
+            border: 0;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            nav.navbar {
+                padding: 0 1rem;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-right {
+                position: absolute;
+                top: 72px;
+                right: 16px;
+                left: 16px;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+                padding: 1rem;
+                border-radius: 16px;
+                background: rgba(10, 10, 35, .92);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
+                z-index: 9999;
+            }
+
+            .nav-right.open {
+                display: flex;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            #navAdminArea {
+                justify-content: space-between;
+            }
+        }
+
+
         /* Header */
         header {
             background: rgba(10, 10, 35, 0.95);
@@ -432,7 +488,7 @@
             flex-direction: column;
         }
 
-        /* Ser till att tagsen lägger sig snyggt längst ner om rubriken är kortare */
+
         .skills-block .skills {
             margin-top: 1rem;
         }
@@ -758,30 +814,26 @@
 
 <body>
 <header>
-    <nav>
+    <nav class="navbar">
         <h1>MY PORTFOLIO</h1>
 
-        <div id="navAdminArea" style="display:flex; align-items:center; gap:.8rem;">
-      <span id="navAdminBadge" style="
-        display:none;
-        padding: .35rem .8rem;
-        border-radius: 999px;
-        font-weight: 800;
-        background: linear-gradient(45deg, #00f5ff, #ff00ff);
-        box-shadow: 0 8px 24px rgba(0,245,255,0.18);
-        font-size: .85rem;
-      ">ADMIN MODE</span>
+        <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
 
-            <a id="navAdminLink" href="/login" style="color:white; text-decoration:none;">Admin Login</a>
+        <div class="nav-right" id="navMenu">
+            <div id="navAdminArea" style="display:flex; align-items:center; gap:.8rem;">
+                <span id="navAdminBadge" style="display:none;">ADMIN MODE</span>
+                <a id="navAdminLink" href="/login" style="color:white; text-decoration:none;">Admin Login</a>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#portfolio">Work</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </div>
-
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#portfolio">Work</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
     </nav>
+
 </header>
 
 <section id="home" class="hero">
@@ -893,7 +945,7 @@
             <div class="skills-block">
                 <h4>Databases</h4>
                 <div class="skills">
-                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">PostgresSQL</span>
                     <span class="skill-tag">SQL</span>
                     <span class="skill-tag">H2 Database</span>
                     <span class="skill-tag">Database Design Basics</span>
@@ -1108,7 +1160,7 @@
     <p>&copy; 2025 Daniela Silva. All rights reserved.</p>
 </footer>
 
-<!-- Modal / Popup (MUST be inside body, before </body>) -->
+
 <div class="modal-overlay" id="projectModalOverlay" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-header">
@@ -1130,7 +1182,7 @@
 </div>
 
 <script>
-    // Smooth scroll (ONE version only)
+    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.addEventListener('click', (e) => {
             const href = a.getAttribute('href');
@@ -1317,8 +1369,11 @@
         const empty = document.getElementById('projectsEmpty');
 
         try {
-            const res = await fetch('/api/projects');
-            if (!res.ok) throw new Error('API error: ' + res.status);
+            const res = await fetch('/api/projects', {credentials: 'same-origin'});
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(`API error:  ${res.status} ${text}`);
+            }
 
             const data = await res.json();
             allProjects = Array.isArray(data) ? data : [];
@@ -1334,15 +1389,12 @@
             // show nice error instead of breaking the page
             empty.style.display = 'block';
             empty.innerHTML = `
-        <div style="font-size:3rem; margin-bottom:1rem; animation: float 3s ease-in-out infinite;">⚠️</div>
-        <h3 style="font-size:1.6rem; background: linear-gradient(45deg, #00f5ff, #ff00ff);
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:.6rem;">
-          Projects are temporarily unavailable
-        </h3>
-        <p style="color: rgba(255,255,255,0.75); max-width:520px; margin:0 auto;">
-          The server returned an error. Please restart the app and try again.
-        </p>
-      `;
+  <div style="font-size:40px; margin-bottom:12px;">⚠</div>
+  <h3 style="margin:0 0 10px;">Projects are temporarily unavailable</h3>
+  <p style="margin:0; opacity:0.85;">The server returned an error. Please restart the app and try again.</p>
+`;
+
+
         }
     }
 
@@ -1360,8 +1412,11 @@
         const link = document.getElementById('navAdminLink');
 
         try {
-            const res = await fetch('/api/me');
-            if (!res.ok) throw new Error('not logged in');
+            const res = await fetch('/api/me', {credentials: 'same-origin'});
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(`API error:  ${res.status} ${text}`);
+            }
             const me = await res.json();
 
             badge.style.display = 'inline-block';
@@ -1378,6 +1433,16 @@
 
     updateAdminNav();
     loadProjects();
+
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener("click", () => {
+            navMenu.classList.toggle("open");
+        });
+    }
+
 </script>
 
 </body>
