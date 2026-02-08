@@ -801,17 +801,15 @@
             animation: none;
         }
 
+        /*  ONE clean mobile block */
         @media (max-width: 768px) {
+            /* layout */
             nav {
                 padding: 0 1rem;
             }
 
-            .hero h2 {
-                font-size: 2.2rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
+            nav h1 {
+                font-size: 1.2rem;
             }
 
             nav ul {
@@ -819,41 +817,16 @@
                 font-size: 0.95rem;
             }
 
-            nav h1 {
-                font-size: 1.2rem;
-            }
-
-            .profile-img {
-                width: 180px;
-                height: 180px;
-            }
-
-            .modal-body {
+            .about-content {
                 grid-template-columns: 1fr;
             }
 
-            .modal-icon {
-                height: 180px;
-                font-size: 4rem;
-            }
-        }
-
-        /* ✅ Mobile hero name animation */
-        @media (max-width: 768px) {
-            .hero-name {
-                display: inline-block; /* krävs för transform */
-                animation: namePop 700ms ease-out 200ms both;
-            }
-        }
-
-
-        /* ✅ Mobile hero polish (lägg längst ner så det vinner över allt) */
-        @media (max-width: 768px) {
+            /* hero (front page) */
             .hero {
-                padding-top: 7.5rem; /* mer luft pga fixed header */
+                padding-top: 7.5rem;
                 padding-left: 1.2rem;
                 padding-right: 1.2rem;
-                min-height: 100svh; /* bättre än 100vh på mobil */
+                min-height: 100svh;
             }
 
             .hero-content {
@@ -865,9 +838,34 @@
                 height: 150px;
             }
 
+            /* title */
             .hero h2 {
                 font-size: 2.0rem;
                 line-height: 1.15;
+                white-space: nowrap;
+            }
+
+            /* om skärmen är SUPER-liten, låt den bryta (så den aldrig går utanför) */
+            @media (max-width: 380px) {
+                .hero h2 {
+                    white-space: normal;
+                }
+            }
+
+            .hero-hi {
+                font-weight: 500;
+                opacity: 0.9;
+                margin-right: 0.35rem;
+            }
+
+            .hero-name {
+                display: inline-block;
+                font-weight: 800;
+                background: linear-gradient(45deg, #00f5ff, #ff00ff, #00ff88);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: namePop 700ms ease-out 200ms both;
             }
 
             .hero p {
@@ -887,30 +885,18 @@
                 opacity: 0.5;
                 background-size: 60px 60px;
             }
-        }
 
-        /* ✅ Mobile hero title polish */
-        @media (max-width: 768px) {
-            .hero h2 {
-                font-size: 2.0rem;
-                line-height: 1.15;
-                white-space: nowrap;
+            /* modal */
+            .modal-body {
+                grid-template-columns: 1fr;
             }
 
-            .hero-hi {
-                font-weight: 500;
-                opacity: 0.9;
-                margin-right: 0.35rem;
-            }
-
-            .hero-name {
-                font-weight: 800;
-                background: linear-gradient(45deg, #00f5ff, #ff00ff, #00ff88);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
+            .modal-icon {
+                height: 180px;
+                font-size: 4rem;
             }
         }
+
 
         @media (prefers-reduced-motion: reduce) {
             .hero-name {
