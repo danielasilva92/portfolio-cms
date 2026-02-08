@@ -1101,6 +1101,49 @@
             }
         }
 
+        /* ===== FIX MOBILE LAYOUT ===== */
+        @media (max-width: 768px) {
+
+            /* mindre sid-padding på mobilen */
+            section {
+                padding: 4rem 1.2rem;
+            }
+
+            /* HERO: gör namnet lite mindre + knappen snyggare */
+            .sign {
+                font-size: 1.75rem; /* justera 1.65–1.85 om du vill */
+                line-height: 1.15;
+                letter-spacing: 2px;
+            }
+
+            .btn {
+                width: 92%;
+                max-width: 340px;
+                padding: 0.95rem 1.2rem;
+            }
+
+            /* ABOUT: tvinga 1 kolumn + full bredd */
+            .about-content {
+                grid-template-columns: 1fr !important;
+                gap: 1.4rem !important;
+            }
+
+            .about-text {
+                width: 100%;
+            }
+
+            .about-right {
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            /* om du har inline-style på p som gör texten stor -> dämpa på mobil */
+            #about p {
+                font-size: 1rem !important;
+                line-height: 1.7 !important;
+            }
+        }
+
 
     </style>
 </head>
