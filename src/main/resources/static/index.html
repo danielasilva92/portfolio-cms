@@ -102,6 +102,24 @@
             }
         }
 
+        @keyframes namePop {
+            0% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+                filter: blur(2px);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(0) scale(1.02);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+
         .nav-toggle {
             display: none;
             background: transparent;
@@ -819,6 +837,88 @@
                 font-size: 4rem;
             }
         }
+
+        /* ✅ Mobile hero name animation */
+        @media (max-width: 768px) {
+            .hero-name {
+                display: inline-block; /* krävs för transform */
+                animation: namePop 700ms ease-out 200ms both;
+            }
+        }
+
+
+        /* ✅ Mobile hero polish (lägg längst ner så det vinner över allt) */
+        @media (max-width: 768px) {
+            .hero {
+                padding-top: 7.5rem; /* mer luft pga fixed header */
+                padding-left: 1.2rem;
+                padding-right: 1.2rem;
+                min-height: 100svh; /* bättre än 100vh på mobil */
+            }
+
+            .hero-content {
+                gap: 1.3rem;
+            }
+
+            .profile-img {
+                width: 150px;
+                height: 150px;
+            }
+
+            .hero h2 {
+                font-size: 2.0rem;
+                line-height: 1.15;
+            }
+
+            .hero p {
+                font-size: 1.05rem;
+                max-width: 28ch;
+                margin: 0 auto;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 320px;
+                text-align: center;
+                padding: 0.95rem 1.2rem;
+            }
+
+            .hero::before {
+                opacity: 0.5;
+                background-size: 60px 60px;
+            }
+        }
+
+        /* ✅ Mobile hero title polish */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.0rem;
+                line-height: 1.15;
+                white-space: nowrap;
+            }
+
+            .hero-hi {
+                font-weight: 500;
+                opacity: 0.9;
+                margin-right: 0.35rem;
+            }
+
+            .hero-name {
+                font-weight: 800;
+                background: linear-gradient(45deg, #00f5ff, #ff00ff, #00ff88);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-name {
+                animation: none !important;
+            }
+        }
+
+
     </style>
 </head>
 
@@ -851,7 +951,10 @@
         <!-- IMPORTANT: place image in src/main/resources/static/natti.jpg -->
         <img src="/natti.jpg" alt="Daniela Silva profile picture" class="profile-img">
         <div>
-            <h2>Hi, I'm Daniela Silva</h2>
+            <h2>
+                <span class="hero-hi">Hi, I’m</span>
+                <span class="hero-name">Daniela Silva</span>
+            </h2>
             <p>Creative Java Developer | Cloud Enthusiast | Designer</p>
             <a href="#portfolio" class="btn">View My Work</a>
         </div>
