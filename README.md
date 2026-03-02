@@ -1,31 +1,31 @@
+##
+### 🚀 Portfolio CMS – Spring Boot Application
 
-📖 Overview
-
+### 📖 Overview
 Portfolio CMS is a full-stack web application built with Java Spring Boot that allows dynamic management of portfolio projects through a secure admin system.
 
 Instead of a static portfolio website, this application works as a Content Management System (CMS) where projects are stored and managed through backend services connected to a database.
 
 The project focuses on modern backend development, security implementation, and scalable architecture prepared for cloud deployment.
 
----
+## 
 
-✨ Key Features
+### ✨ Key Features
 
-✅ Secure admin authentication
+- Secure admin authentication
 
-✅ CRUD management of portfolio projects
+- CRUD management of portfolio projects
 
-✅ RESTful API architecture
+- RESTful API architecture
 
-✅ Database persistence using JPA / Hibernate
+- Database persistence using JPA / Hibernate
 
-✅ Layered backend structure
+- Layered backend structure
 
-✅ Dockerized deployment
+- Dockerized deployment
 
-✅ Cloud-ready application design
+- Cloud-ready application design
 
----
 
 ## 🧱 Tech Stack
 
@@ -51,7 +51,9 @@ The project focuses on modern backend development, security implementation, and 
 - Git
 - GitHub
 
----
+## 
+
+### 🏗 System Architecture
 
 Client (Frontend)
         ↓
@@ -68,16 +70,16 @@ Repository Layer
 Database
 
 The layered architecture improves maintainability, scalability and separation of concerns.
+## 
 
----
-
+###
 🔐 Security
 
 Authentication and protected routes are implemented using Spring Security, ensuring only authorized users can manage portfolio content.
 
----
+## 
 
-📡 Example API Endpoints
+### 📡 Example API Endpoints
 
 GET     /api/projects
 
@@ -88,11 +90,11 @@ PUT     /api/projects/{id}
 DELETE  /api/projects/{id}
 
 
----
+## 
 
-🐳 Run with Docker
+### 🐳 Run with Docker
 
-Build image:
+ Build image:
 
 docker build -t portfolio-cms .
 
@@ -104,9 +106,9 @@ Application runs on:
 
 http://localhost:8080
 
----
+## 
 
-🚀 Run Locally
+### 🚀 Run Locally
 
 Clone repository:
 
@@ -124,34 +126,35 @@ Windows:
 
 mvnw.cmd spring-boot:run
 
----
+## 
 
-🎯 Learning Objectives
+### 🎯 Learning Objectives
 
-This project demonstrates:
+- This project demonstrates:
 
-Backend system design
+- Backend system design
 
-REST API development
+- REST API development
 
-Authentication & authorization
+- Authentication & authorization
 
-Database integration
+- Database integration
 
-Clean code architecture
+- Clean code architecture
 
-Deployment preparation
+- Deployment preparation
 
----
 
-🔮 Future Improvements
+## 
 
-JWT Authentication
+###  Future Improvements
 
-Role-based permissions
+- JWT Authentication
 
-React frontend
+- Role-based permissions
 
-CI/CD pipeline
+- React frontend
 
-Cloud deployment (AWS / Azure)
+- CI/CD pipeline
+
+- Cloud deployment (AWS / Azure)
